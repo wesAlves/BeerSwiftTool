@@ -37,12 +37,49 @@ body {
 
     margin-bottom: 1%;
 }
-legend {
-    text-align: left;
-
+label {
+    background-color: grey;
+    text-align: center;
+    width: 20vw;
+    border-radius: 8px 0 0 8px;
+    
 }
 input {
     flex: 1;
-    margin-left: 2%;
+    border: none;
+    text-align: center;
+    
 }
+input[name="grain-name"] {
+    
+    border-radius: 0 8px 8px 0;
 
+}
+input:disabled {
+    background-color: white;
+    color: black;
+}
+span {
+    background-color: white;
+    border-radius: 0 8px 8px 0;
+    width: 5vw;
+    text-align: center;
+}
+select {
+    flex: 1;
+    border: none;
+    border-radius: 0 8px 8px 0;
+    
+}
+select option {
+    text-align: right;
+}
+button {
+  
+    width: 25vw;
+    justify-content: center;
+    margin-left: 25%;
+    margin-bottom: 5%;
+    border-radius: 8px;
+    
+}
