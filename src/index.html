@@ -1,45 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Original gravity</title>
-</head>
-<body>
-    <div>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Original gravity</title>
+    </head>
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;700&family=Ubuntu:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/public/styles/index.css">
+
+
+    <body>
+        
         <h1 id="title">OG calculator</h1>
-    </div>
-    <div>
-        <label>Grain type</label>
-        </select> -->
-        <input name="grain-name" type="text" placeholder="Type o grain">
-        <label>Grain name</label>
-            <br />
-            <br />
-        <label>Estract Potencial</label>
-        <input name="grain-conversion" type="text" placeholder="S.G conversion">
-            <span>S.G.</span>
-            <br />
-            <br />
-                            
-        <label>Grain</label>
-        <input name="grain" type="text" placeholder="Amount Grain">
-            <span>Kg</span>
-            <br />
-            <br />
-        <label>Water</label>           
-        <input name="water" type="text" placeholder="Amount Water" value="">
-            <span>L</span>
-            <br />
-            <br />
-        <button type="submit">Submit</button>
-        <br />
-        <br />
-        <label>Result</label>
-        <input name="result" type="text" placeholder="Results">
-            <span>O.G.</span>
-    </div>
-</body>
-<script src="./index.js"></script>
-    
+       
+
+        <div id="form">
+            <div class="field">
+                <label>Grain name</label>
+                <input name="grain-name" type="text" placeholder='e.g: "Pale Ale"'>
+            </div>
+
+            <div class="field">
+                <label>Malt type</label>
+                <select name="malt-type">
+                    <option value="">Select type</option>
+                    <option value="">Base malt</option>
+                    <option value="">Base malt extract</option>
+                    <option value="">Crystal malt</option>
+                    <option value="">Crystal malt extract</option>
+                    <option value="">Roasted malt</option>
+                    <option value="">Roasted malt extract</option>
+                    <option value="">Sugar</option>
+                </select>
+
+            </div>
+            <div class="field">
+                <label>Malt color</label>
+                <input name="malt-color" type="text" placeholder='e.g: "16"'>
+                <span>EBC</span>
+            </div>
+             
+
+            <div class="field">
+                <label>Extract Potencial</label>
+                <input name="extPot" type="text" placeholder='e.g: "1.036"'>
+                <span>S.G.</span>
+            </div>
+
+            <div class="field">
+                <label>Grain</label>
+                <input name="grain" type="text" placeholder="Amount of Grain">
+                <span>Kg</span>
+            </div>
+
+            <div class="field">
+                <label>Total Wort Volume</label>
+                <input name="wort" type="text" placeholder="Wort volume" value="">
+                <span>L</span>
+            </div>
+
+            <button type="submit">Submit</button>
+
+            <div class="field">
+                <label>Result</label>
+                <input disabled name="result" type="text" placeholder="Results">
+                <span>O.G.</span>
+            </div>
+
+        </div>
+    </body>
+
+    <script src="/public/scripts/index.js"></script>
+
 </html>

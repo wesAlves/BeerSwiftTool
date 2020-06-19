@@ -1,20 +1,22 @@
 
-let water = document.querySelector("input[name='water']");
+let wort = document.querySelector("input[name='wort']");
 let grain = document.querySelector("input[name='grain']");
 let result = document.querySelector("input[name='result']");
-let grainConv = document.querySelector("input[name='grain-conversion']");
+let extPot = document.querySelector("input[name='extPot']");
 const calc =  document.querySelector("button");
-const sacarose = 0.04621;
-
 const malt = document.querySelector("select[name='malt']");
 
 function OG(){
-    let calcConv = ((Number(grainConv.value)-1)*100/4).toFixed(3);   
-    let calcOG =   ((((calcConv)*Number(grain.value)/Number(water.value))*4/10)+1).toFixed(3);
+    //Specific Gravity(S.G.) on Gravity Unitys(G.U.) conversion.
+    let potGU = (((Number(extPot.value))-1)*1000); 
+    // Extract potencial based Original gravity   
+    let calcOG =   (((((potGU/46)*(Number(grain.value)))/ Number(wort.value))*4/10)+1).toFixed(3)
     result.value = calcOG;
 }
 calc.onclick = function() {
-    OG();
+    // OG();
+   console.log(OG());
+
 }
 
 
