@@ -7,16 +7,14 @@ const calc =  document.querySelector("button");
 const malt = document.querySelector("select[name='malt']");
 
 function OG(){
-    //Specific Gravity(S.G.) on Gravity Unitys(G.U.) conversion.
-    let potGU = (((Number(extPot.value))-1)*1000); 
-    // Extract potencial based Original gravity   
-    let calcOG =   (((((potGU/46)*(Number(grain.value)))/ Number(wort.value))*4/10)+1).toFixed(3)
-    result.value = calcOG;
+   //calcullating DBFG (grain sugar's percent)
+   let DBFG = (((Number(extPot.value))-1)/0.04621);
+       
+   let calcOG =   ((((DBFG*(Number(grain.value)))/ Number(wort.value))*4/10)+1).toFixed(3);
+   result.value = calcOG;
 }
 calc.onclick = function() {
-    // OG();
-   console.log(OG());
-
+    OG();
 }
 
 
