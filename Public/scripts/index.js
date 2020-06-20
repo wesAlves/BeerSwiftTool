@@ -9,10 +9,13 @@ const malt = document.querySelector("select[name='malt']");
 function OG(){
    //calcullating DBFG (grain sugar's percent)
    let DBFG = (((Number(extPot.value))-1)/0.04621);
-       
-   let calcOG =   ((((DBFG*(Number(grain.value)))/ Number(wort.value))*4/10)+1).toFixed(3);
+   // calculating Plato degrees using DBFG and grain/water ratio
+   let platoDeg = ((DBFG*(Number(grain.value))/Number(wort.value))*100);
+   //calculating OG
+   let calcOG =   (259/(259-platoDeg)).toFixed(3);
    result.value = calcOG;
 }
+
 calc.onclick = function() {
     OG();
 }
