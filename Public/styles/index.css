@@ -1,0 +1,85 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html {
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    background-color: #e08200;
+    -webkit-font-smoothing: antialiased;
+}    
+
+
+#title {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    background-color: azure;
+    color: #6e6e64;
+      
+    
+}
+#form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-right: 25%;
+    margin-left: 25%;
+    margin-top: 3%;
+}
+
+#form .field {
+    display: flex;
+    flex: 1;
+
+    margin-bottom: 1%;
+}
+label {
+    background-color: grey;
+    text-align: center;
+    width: 20vw;
+    border-radius: 8px 0 0 8px;
+    
+}
+input {
+    flex: 1;
+    border: none;
+    text-align: center;
+    
+}
+input[name="grain-name"] {
+    
+    border-radius: 0 8px 8px 0;
+
+}
+input:disabled {
+    background-color: white;
+    color: black;
+}
+span {
+    background-color: white;
+    border-radius: 0 8px 8px 0;
+    width: 5vw;
+    text-align: center;
+}
+select {
+    flex: 1;
+    border: none;
+    border-radius: 0 8px 8px 0;
+    
+}
+select option {
+    text-align: right;
+}
+button {
+  
+    width: 25vw;
+    justify-content: center;
+    margin-left: 25%;
+    margin-bottom: 5%;
+    border-radius: 8px;
+    
+}
