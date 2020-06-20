@@ -1,0 +1,18 @@
+ - Micro serviço de concentração de açúcar no mosto final.
+    Quantos quilos de malt
+    Qual é tipo do malt
+        Para o tipo seleciona, fator de converção de açúcar
+    Quantos litros de água
+
+    //Calculo de Extract potencial.
+
+    Plus - Eficiência do processo
+    Sabendo a quantidade inicial de água, qual  vai ser a concentração do primeiro mosto.
+
+___________________________________________
+
+Ferramentas
+Javascript puro.
+Html.
+Css.
+
