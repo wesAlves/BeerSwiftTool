@@ -34,13 +34,7 @@ function IBU(){
     let mgPerL = (((Number(alphaAcid.value))/100)*((Number(hopMass.value))*1000))/Number(wort.value);
     //Calculating IBS
     let calcIbu = (hopUtil*mgPerL).toFixed(2);
-
-    console.log(hopUtil);
-    console.log(mgPerL);
-
-
-
-    
+     
     ibu.value = calcIbu;
     // TODO flameout hop additions calculation
 }
