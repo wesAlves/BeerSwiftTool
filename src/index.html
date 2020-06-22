@@ -13,9 +13,15 @@
     <body>
         
         <h1 id="title">OG calculator</h1>
+
+         <div id="initials" class="field">
+                <label>Batch size   </label>
+                <input name="wort" type="text" placeholder="Wort volume" value="">
+                <span>L</span>
+        </div>
        
 
-        <div id="form">
+        <div id="form" name="malt-math">
             <div class="field">
                 <label>Grain name   </label>
                 <input name="grain-name" type="text" placeholder='e.g: "Pale Ale"'>
@@ -54,20 +60,43 @@
                 <span>Kg</span>
             </div>
 
-            <div class="field">
-                <label>Total Wort Volume   </label>
-                <input name="wort" type="text" placeholder="Wort volume" value="">
-                <span>L</span>
-            </div>
-
-            <button type="submit">Submit</button>
+           
+            <button type="submit" name="OG">Submit</button>
 
             <div class="field">
                 <label>Result   </label>
                 <input disabled name="result" type="text" placeholder="Results">
                 <span>O.G.</span>
             </div>
+        </div>
 
+        <div id="form" class="hop-math">
+            <div class="field">
+                <label>Hop name </label>
+                <input name="hop-name" type="text">
+            </div>
+
+            <div class="field">
+                <label>Mass/g</label>
+                <input name="hop-mass" type="text">
+            </div>    
+            <div class="field">
+                <label>Alpha acid/% </label>
+                <input name="alpha-acid" type="text">
+            </div>
+            <div class="field">
+                <label>Boil time/min </label>
+                <input name="boil-time" type="text">
+            </div>
+            
+            
+            <button type="submit" name="IBU">Submit</button>
+
+            <div class="field">
+                <label>IBU</label>
+                <input disabled name="IBU" type="text" >
+                <span>IBU</span>
+            </div>
         </div>
     </body>
 

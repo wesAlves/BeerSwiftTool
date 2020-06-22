@@ -22,6 +22,15 @@ body {
       
     
 }
+
+#initials {
+    display: flex;
+    justify-content: center;
+    margin-right: 25%;
+    margin-left: 25%;
+    margin-top: 3%;
+    
+}
 #form {
     display: flex;
     flex-direction: column;
@@ -82,4 +91,12 @@ button {
     margin-bottom: 5%;
     border-radius: 8px;
     
+}
+#form.hop-math .field input {
+    flex: 1;
+    border: none;
+    border-radius: 0 8px 8px 0;
+}
+#form.hop-math .field input[name="IBU"] {
+    border-radius: 0;
 }

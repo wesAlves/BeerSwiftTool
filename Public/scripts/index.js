@@ -1,9 +1,15 @@
 
 let wort = document.querySelector("input[name='wort']");
 let grain = document.querySelector("input[name='grain']");
-let result = document.querySelector("input[name='result']");
+let finalGravity = document.querySelector("input[name='result']");
 let extPot = document.querySelector("input[name='extPot']");
-const calc =  document.querySelector("button");
+let alphaAcid = document.querySelector("input[name='alpha-acid']");
+let hopMass = document.querySelector("input[name='hop-mass']");
+
+let boilTime = document.querySelector("input[name='boil-time']");
+let ibu = document.querySelector("input[name='IBU']");
+const calc =  document.querySelector("button[name='OG']");
+const calcIbus =  document.querySelector("button[name='IBU']");
 const malt = document.querySelector("select[name='malt']");
 
 function OG(){
@@ -13,19 +19,49 @@ function OG(){
    let platoDeg = ((DBFG*(Number(grain.value))/Number(wort.value))*100);
    //calculating OG
    let calcOG =   (259/(259-platoDeg)).toFixed(3);
-   result.value = calcOG;
+   finalGravity.value = calcOG;
 }
 
 calc.onclick = function() {
     OG();
 }
 
+//calculating IBU'S based o Tinseth's fórmula (the most accurate till now)
+function IBU(){
+    //calculation Hop utilization
+    let hopUtil = (1.65*Math.pow(0.000125, (Number(finalGravity.value)-1))*(1-Math.exp(-0.04*boilTime.value))/4.15);
+    //Calculating Mg/L of alpha acid
+    let mgPerL = (((Number(alphaAcid.value))/100)*((Number(hopMass.value))*1000))/Number(wort.value);
+    //Calculating IBS
+    let calcIbu = (hopUtil*mgPerL).toFixed(2);
 
-// Often brewers refer to a malt’s “extract potential.” This is typically expressed as specific gravity that can be achieved with 1.00 pound (455 g) of malt mashed in 1.00 gallon (3.78 L) of water.
+    console.log(hopUtil);
+    console.log(mgPerL);
 
-// The following formula can be used to calculate extract potential:
-// Extract potential (S.G.) = 1 + (DBFG / 100) * 0.04621
 
-// The 0.4621 multiplier in the formula is the extract potential of sucrose (1.04621), against which all extract is measured. For example, a malt with a DBFG value of 80.5% results in a calculated extract potential of 1.0372.
 
-// https://byo.com/article/understanding-malt-spec-sheets-advanced-brewing/
+    
+    ibu.value = calcIbu;
+    // TODO flameout hop additions calculation
+}
+
+
+
+calcIbus.onclick = function () {
+   IBU()
+}
+
+
+//Flameout hop additions:
+// Calculating hop bitterness in the whirlpool is similar to calculating it in the boil. Hop bitterness is a function of boil (or steep) time, amount of hops used, boil volume, boil gravity, and the alpha acid percentage of the hops. The same basic relationships apply to the whirlpool.
+
+// The only major difference is that in the whirlpool, the hops are at a lower temperature, so the isomerization process takes place at a much slower pace. In fact, below boiling it drops off very rapidly. As a result the temperature and time of your whirlpool additions are very important.
+// If we calculate the hop utilization for an equivalent boil hop using the time, volume and gravity of the wort for the addition, we can then apply the “whirlpool utilization” to this number to estimate the overall hop utilization. Here’s a look at the whirlpool utilization with temperature assuming 100% would be an equivalent boil hop:
+
+// Formula: Utilization = 2.39 * 10^11 * e^(-9773/T) where T is in Kelvin
+// Boiling: 100 C (212 F) – Utilization is 100%
+// At 90 C (194 F) – Utilization is 49%
+// At 80 C (176 F) – Utilization is 23%
+// At 70 C (158 F) – Utilization is 10%
+// At 60 C (140 F) – Utilization is 4.3%
+// At 50 C (122 F) – Utilization is 1.75%
