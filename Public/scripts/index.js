@@ -1,29 +1,41 @@
 
 let wort = document.querySelector("input[name='wort']");
+let efficiency = document.querySelector("input[name='efficiency']");
+
 let grain = document.querySelector("input[name='grain']");
-let finalGravity = document.querySelector("input[name='result']");
+let origGravity = document.querySelector("input[name='result']");
+let fgGravity = document.querySelector("input[name='fg']");
 let extPot = document.querySelector("input[name='extPot']");
+
 let alphaAcid = document.querySelector("input[name='alpha-acid']");
 let hopMass = document.querySelector("input[name='hop-mass']");
-
 let boilTime = document.querySelector("input[name='boil-time']");
 let ibu = document.querySelector("input[name='IBU']");
-const calc =  document.querySelector("button[name='OG']");
-const calcIbus =  document.querySelector("button[name='IBU']");
+
+const gravityCalc =  document.querySelector("button[name='OG']");
+const ibuCalc =  document.querySelector("button[name='IBU']");
 const malt = document.querySelector("select[name='malt']");
 
-function OG(){
+function OGFG(){
    //calcullating DBFG (grain sugar's percent)
    let DBFG = (((Number(extPot.value))-1)/0.04621);
    // calculating Plato degrees using DBFG and grain/water ratio
-   let platoDeg = ((DBFG*(Number(grain.value))/Number(wort.value))*100);
+   let platoDeg = (((DBFG*(Number(grain.value))/Number(wort.value))*100)*(Number(efficiency.value)/100));
    //calculating OG
    let calcOG =   (259/(259-platoDeg)).toFixed(3);
-   finalGravity.value = calcOG;
+   origGravity.value = calcOG;
+
+    let attenuation = 0.75;
+    let fgPlatoDeg = platoDeg*(1 - attenuation);
+    let calcFg = (259/(259-fgPlatoDeg)).toFixed(3);
+    fgGravity.value = calcFg;
 }
 
-calc.onclick = function() {
-    OG();
+
+
+gravityCalc.onclick = function() {
+    OGFG();
+   
 }
 
 //calculating IBU'S based o Tinseth's fórmula (the most accurate till now)
@@ -41,9 +53,10 @@ function IBU(){
 
 
 
-calcIbus.onclick = function () {
+ibuCalc.onclick = function () {
    IBU()
 }
+
 
 
 //Flameout hop additions:
