@@ -41,11 +41,11 @@ gravityCalc.onclick = function() {
 //calculating IBU'S based o Tinseth's fórmula (the most accurate till now)
 function IBU(){
     //calculation Hop utilization
-    let hopUtil = (1.65*Math.pow(0.000125, (Number(finalGravity.value)-1))*(1-Math.exp(-0.04*boilTime.value))/4.15);
+    let hopUtil = (1.65*Math.pow(0.000125, ((Number(origGravity.value)-1)*1.1))*(1-Math.exp(-0.04*boilTime.value))/4.15);
     //Calculating Mg/L of alpha acid
     let mgPerL = (((Number(alphaAcid.value))/100)*((Number(hopMass.value))*1000))/Number(wort.value);
     //Calculating IBS
-    let calcIbu = (hopUtil*mgPerL).toFixed(2);
+    let calcIbu = Math.round(hopUtil*mgPerL);
      
     ibu.value = calcIbu;
     // TODO flameout hop additions calculation
