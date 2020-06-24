@@ -1,10 +1,15 @@
 import React from 'react';
+import OgCalc from './components/OgCalc/';
 
-export default function App(){
-    return(
+import './_styles/main.scss';
+
+export default function App() {
+    return (
         <>
-        <div>Teste</div>
-        <div>Teste</div>
+            <OgCalc
+                maxWidth="sm"
+                className="card"
+            />
         </>
     )
 }
