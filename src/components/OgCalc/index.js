@@ -1,55 +1,52 @@
-import React from 'react';
-import { Container, TextField, ThemeProvider } from '@material-ui/core';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import { MdFileDownload } from 'react-icons/md';
+import React, { useState, useEffect } from 'react';
+import { Container, TextField, ThemeProvider, Typography } from '@material-ui/core';
 import mainTheme from '../../_styles/mainTheme';
+import InputAdornment from '@material-ui/core/InputAdornment';
+
 
 import "./styles.scss";
+// import Fermentable from '../Fermentables'
+
+import MaltForm from '../Fermentables/FermentablesForm';
 
 export default function OgCalc(props) {
+
+    // const handleFermentable = () => {
+    //     console.log(fermentables[0].maltId);
+    // }
+
+
     return (
-        <ThemeProvider theme={mainTheme}>
+        <ThemeProvider theme={mainTheme} >
             <Container maxWidth={props.maxWidth} className={props.className} >
-                {/* <MdFileDownload /> */}
-                <TextField
-                    label="Grain name"
-                    variant="outlined"
-                />
-                <TextField
-                    label="Malt type"
-                    variant="outlined"
-                />
-                <TextField
-                    label="Malt color"
-                    variant="outlined"
-                    InputProps={{
-                        endAdornment: <InputAdornment position="end">EBC</InputAdornment>,
-                    }} />
-                <TextField
-                    label="Extract potencial"
-                    variant="outlined"
-                    InputProps={{
-                        endAdornment: <InputAdornment position="end">SG</InputAdornment>,
-                    }} />
-                <TextField
-                    label="Grain"
-                    variant="outlined"
-                    InputProps={{
-                        endAdornment: <InputAdornment position="end">Kg</InputAdornment>,
-                    }}
-                />
-                <TextField
+                <Typography variant='h4' color='primary' colorPrimary>
+                    SG calculator
+                </Typography>
+                
+                {/* <Fermentable /> */}
+
+                <MaltForm />
+                <MaltForm />
+
+                {/* <TextField
+                    onFocus={handleFermentable}
                     label="Total wort volume"
                     variant="outlined"
-                    type='number'
                     InputProps={{
                         endAdornment: <InputAdornment position="end">L</InputAdornment>,
-                    }} />
+                    }}
+                />
+
                 <TextField
                     label="Result"
-                    variant="outlined"
+                    variant="standard"
+                    // value={handlerSG}
+                    className="OG_result"
                     disabled
-                />
+                    value={3 + 5}
+                /> */}
+
+
             </Container>
         </ThemeProvider>
     )

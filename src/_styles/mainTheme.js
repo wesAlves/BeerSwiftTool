@@ -10,6 +10,12 @@ const mainTheme = createMuiTheme({
     },
     overrides: {
 
+        // MuiTypography:{
+        //     root:{
+        //         color: 'primary.main'
+        //     }
+        // },
+
         MuiFormControl: {
             root: {
                 display: 'block',
@@ -19,9 +25,17 @@ const mainTheme = createMuiTheme({
         },
         MuiInputBase: {
             root: {
-                width: '100%'
+                width: '100%',
             },
-        }
+        },
+        MuiInput: {
+            underline: {
+                '&::before': {
+                    borderBottom: 'none !important'
+                },
+            },
+
+        },
     }
 
 });
