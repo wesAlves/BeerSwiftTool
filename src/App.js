@@ -12,6 +12,11 @@ export default function App() {
             maltttype = "casa"
             
             />
+            <Basic
+            maltttype = "maçã"
+            
+            />
+           
             </div>
         </>
     )

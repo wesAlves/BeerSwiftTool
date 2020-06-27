@@ -20,21 +20,24 @@ const Basic = (props) => {
             alert(JSON.stringify(values, null, 2));
         }
     });
+    const maltInicialQuantity = 1
+
+    let matlQuantity = 1;
 
     return (
         <>
             <ThemeProvider theme={mainTheme} >
                 <Container className="card">
 
-
-                    <form onSubmit={formik.handleSubmit}>
+                    {matlQuantity >= maltInicialQuantity ? 
+                    (<form onSubmit={formik.handleSubmit}>
                         <TextField
                             // id='name'
                             variant="outlined"
                             onChange={formik.handleChange}
                             name="maltName"
                             value={formik.values.maltName}
-                            label="Total wort volume"
+                            label="Name"
                         // onClick={(e) => {console.log(e.target.value)}}
 
                         />
@@ -72,7 +75,7 @@ const Basic = (props) => {
                         <TextField
                             variant="outlined"
                             onChange={formik.handleChange}
-                            value={2*formik.values.maltPotencial}
+                            value={2 * formik.values.maltPotencial}
                             name="maltAmount"
                             label="Malt amount"
                             // onClick={(e) => {console.log(e.target.value)}}
@@ -80,8 +83,10 @@ const Basic = (props) => {
                                 endAdornment: <InputAdornment position="end">L</InputAdornment>,
                             }}
                         />
-                        <button type="submit">Submit</button>
-                    </form>
+                        <button type="submit" onClick={(e)=> (console.log(matlQuantity+1))}>Submit</button>
+                    </form>)
+
+ : console.log("nooo")}
 
 
                 </Container>
