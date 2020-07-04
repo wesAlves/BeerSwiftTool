@@ -1,0 +1,46 @@
+## Algoritimo de implementação de inputs.
+
+No topo do app teremos a principio dois inputs globais:
+
+   Wort = volume final do mosto.
+   Efficicency = Eficiencia global do processo de fabricação do mosto.
+
+Logo abaixo ficam 4 botões.(todos elementos adicionados que forem usados em calculos devem ter uma identidade alphanumerica unica e relativa ex. malt1, malt2, malt3 etc... hop1, hop2, hop3 etc...)
+
+    botão 1: addMalt = adiciona um elemento com 6 campos (precisa ter um forma de mudar a ordem e apagar esse elementos dentro do elemento ).
+
+        Campo 1 = input - Nome do malte( a principio um input de texto, mas no futuro será possivel buscar em um banco um malte que prencha  outors inputs dessa lista).
+        campo 2 = select - tipo do malte ( em um futuro será utilizado nos calculos da quimica da água).
+        campo 3 = input - cor do malte(usado para o calculo da cor do mosto)
+        Campo 4 = input - extrato potencial (que será usado para os calculos de gravidade especifica do mosto)
+        campo 5 = input - quantidade desse malte utilizado (que será usado para os calculos de gravidade especifica do mosto)
+        campo 6 = output - porcentagem do malte no "Grist" (isso deve ser atualizado sempre que um malte for adicionado ou editado)
+
+    botão 2: addHop = adiciona um elemento com 6 campos  (precisa ter um forma de mudar a ordem e apagar esses elementos dentro do elemento).
+
+        Campo 1 = input - Nome do Lupulo( a principio um input de texto, mas no futuro será possivel buscar em um banco um lupulo que prencha  outors inputs dessa lista).
+        campo 2 = select - tipo de adicão do lupulo ( ex. Boil, dry hop, etc... isso será utilizado no calculo das unidades de amargor)
+        campo 3 = input - tempo de adicão (que deve ser zero quando tipo de adição for Flameout e nulo quando for dryhop, será usado para calculo das unidades de amargor)
+        Campo 4 = input - porcentagem de alpha acidos (que será usado para os calculos de unidades de amargor)
+        campo 5 = input - quantidade desse Lupulo utilizado (que será usado para os calculos de unidades de amargor)
+        campo 6 = output - Unidades de amragor desse lupulo nessas condições.
+
+    botão 3 : addyeast =  adiciniona um elemento com x campos (futura inplementação) (esses campos precisão ser definidos, sendo deles, o importante para calculo, a atenuação especifica dalevedura )  (precisa ter um forma de mudar a ordem e apagar esse elementos dentro do elemento).
+
+    botão 4:  Water chemistry (futura inplementação) (esse botão levara a um calculador da quimica da agua e depois levara para a lista de ingredientes as quantidades de reagentes a serem adicionados)  (precisa ter um forma de mudar a ordem e apagar esse elementos dentro do elemento ).
+
+    Botão 5: addAdj = adiciona um elemento com 4 campos ex. whirlfloc (esses elementos não serão utilizados em nenhum calculo)(precisa ter um forma de mover e apagar esse elemento)  (precisa ter um forma de mudar a ordem e apagar esse elementos dentro do elemento).
+        Campo 1 = input - Nome do adjunto( a principio um input de texto, mas no futuro será possivel buscar em um banco um adj que prencha  outors inputs dessa lista).
+        campo 2 = select - Qual processo de produção ele será utilizado ex. Boil, mash etc... 
+        campo 3 = input - tempo que será adicionado ex. 1° dia da fermentação.
+        Campo 4 = input - duração da adicição ex.24 horas (o campo 3 e 4 formariam como exemplo a seguinte informação Será: adicionado no 1° dia de fermentação e ficará lá por 24 Horas )
+
+## com esses inputs identificados começam os calculos em si.
+
+## no final teremos 5 outputs
+
+    output 1 = Gravida original
+    output 2 = gravidade final
+    Output 3 = graduação alcoolica
+    outout 4 = Unidade internacional de amargor
+    output 5 = perfil mineral da agua (que será implementado no futuro).
