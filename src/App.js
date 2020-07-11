@@ -1,23 +1,13 @@
 import React from 'react';
+import Fermentables from './components/Fermentables';
 
-import Basic from './components/FermentablesForm/index';
 
 import './_styles/main.scss';
 
 export default function App() {
     return (
         <>
-            <div>
-            <Basic
-            maltttype = "casa"
-            
-            />
-            <Basic
-            maltttype = "maçã"
-            
-            />
-           
-            </div>
+                <Fermentables />
         </>
     )
 }
