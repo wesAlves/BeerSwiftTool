@@ -1,0 +1,79 @@
+.Malt {
+  width: fit-content;
+  margin-bottom: 8px;
+  border: 1px solid #eee;
+  box-shadow: 0 2px 3px #ccc;
+  padding: 16px;
+  border-radius: 8px;
+  background: #eee;
+  // max-width: 80%;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  & > .inputMalt {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    // flex-wrap: wrap;
+    color: #999;
+    margin-top: 8px;
+    & > input,
+    select {
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      background: #eee;
+      padding: 4px;
+      display: flex;
+      flex-wrap: nowrap;
+      flex-direction: row;
+      justify-self: stretch;
+      max-width: 70%;
+      width: 100%;
+    }
+    & > select {
+      max-width: calc(70% + 10px);
+    }
+  }
+  & > .delButton {
+    border: 2px solid #f32;
+    border-radius: 8px;
+    background: #f43;
+    color: white;
+    padding: 8px 2px;
+    font-size: 1rem;
+    width: 100%;
+    text-align: center;
+    margin: 16px 0 0 0;
+  }
+}
+@media only screen and (min-width: 900px) {
+  .Malt {
+    flex-wrap: unset;
+    max-width: 100%;
+
+    & > .inputMalt {
+      width: auto;
+      display: flex;
+      justify-content: space-between;
+      color: #999;
+      margin-top: 8px;
+    }
+    & > .inputMalt ~ .inputMalt {
+      margin-left: 8px;
+    }
+
+    & > .delButton {
+      padding: 2px;
+      font-size: 0.8rem;
+      width: auto;
+      text-align: center;
+      margin: 8px 0 0 8px;
+      height: 20px;
+    }
+  }
+}
+
+.Malt + .Malt {
+  margin-top: 8px;
+}
