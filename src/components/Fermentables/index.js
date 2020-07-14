@@ -13,7 +13,7 @@ const Fermentables = (props) => {
 
     const [maltsState, setMalts] = useState({
         malts: [
-            { id: uuid(), maltName: "Pale Ale", maltColor: 3, maltPot: 1.036, maltAmount: 1 },
+            { id: uuid(), maltName: "Sacarose", maltColor: 3, maltPot: 1.04621, maltAmount: 6 },
         ]
     });
 
@@ -116,34 +116,26 @@ const Fermentables = (props) => {
 
     }
 
-    const caculateOG = () => {
-
+    useEffect(() => {
         const maltsPlato = [...maltsState.malts];
 
-        for (let i = 0; i < maltsPlato.length; i++) {
-            const percentageDBFG = ((Number(maltsState.malts[i].maltPot) - 1) / 0.04621) * 100;
+        for (let i = 0; i < maltsState.malts.length; i++) {
+
+            const maltAmount = Number(maltsPlato[i].maltAmount);
+            const maltPotential = Number(maltsPlato[i].maltPot);
+
+            const percentageDBFG = (maltPotential - 1) / 0.04621 * 100;
             const extractPotential = 1 + (percentageDBFG / 100) * 0.04621;
 
-            const maltOG = ((Number(maltsState.malts[i].maltAmount) * percentageDBFG) / wortVolume);
+            const maltOG = (maltAmount * percentageDBFG) / wortVolume;
 
-            // console.log(`Este é o potêncial do malt ${maltsPlato[i].maltPot}`);
+            wortUpdatedPotential = wortUpdatedPotential + maltOG;
+
+            setWortPotential((259 / (259 - (wortUpdatedPotential))).toFixed(3));
+
             console.log(`Este é o potêncial do mosto ${maltOG}`);
-
         }
 
-
-
-
-    }
-
-    useEffect(() => {
-        for (let i = 0; i < maltsState.malts.length; i++) {
-            const maltPotential = Number(maltsState.malts[i].maltPot);
-            const maltAmount = Number(maltsState.malts[i].maltAmount);
-
-            wortUpdatedPotential = wortUpdatedPotential + (maltPotential * maltAmount);
-            setWortPotential(wortUpdatedPotential);
-        }
     }, [maltsState]);
 
 
@@ -201,7 +193,7 @@ const Fermentables = (props) => {
                         Wort potential: {wortPotential}
                     </p> */}
                     <button className="addMaltButton" onClick={addMaltHandler}>Add malt</button>
-                    <button className="addMaltButton" onClick={caculateOG}>Calc</button>
+                    {/* <button className="addMaltButton" onClick={caculateOG}>Calc</button> */}
                 </div>
             </div>
         </>
