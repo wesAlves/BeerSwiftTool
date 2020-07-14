@@ -1,6 +1,8 @@
 import React from 'react';
 import './index.scss';
 
+import BSTInputText from '../../generecsComponents/inputText';
+
 const Malt = (props) => {
 
     /*
@@ -16,10 +18,18 @@ const Malt = (props) => {
     return (
 
         <div className="Malt">
-            <div className="inputMalt">
+
+            <BSTInputText
+                inputName="Malt Name"
+                type="text"
+                onChange={props.changeName}
+                value={props.maltName}
+            />
+
+            {/* <div className="inputMalt">
                 <label>Malt name</label>
                 <input type='text' onChange={props.changeName} value={props.maltName} />
-            </div>
+            </div> */}
 
             <div className="inputMalt">
                 <label>Malt type</label>

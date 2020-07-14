@@ -13,7 +13,7 @@ const Fermentables = (props) => {
 
     const [maltsState, setMalts] = useState({
         malts: [
-            { id: uuid(), maltName: "Sacarose", maltColor: 3, maltPot: 1.04621, maltAmount: 6 },
+            { id: uuid(), maltName: "Sacarose", maltColor: 3, maltPot: 1.04621, maltAmount: 3 },
         ]
     });
 
@@ -57,19 +57,10 @@ const Fermentables = (props) => {
         });
 
         const malt = {
-            ...maltsState.malts[maltIndex]
+            ...maltsState.malts[maltIndex] 
         };
 
         malt.maltPot = event.target.value;
-
-        // maltAmounts = Number(malt.maltAmount);
-
-        // let DBFG = (((Number(malt.maltPot)) - 1) / 0.04621);
-        // console.log(`Este é o potencial do malt ${DBFG}`);
-        // let platoDeg = ((DBFG * (Number(malt.maltAmount)) / Number(1)) * 100);
-        // console.log(`Este é o platô ${platoDeg}`);
-
-
 
         const malts = [...maltsState.malts];
         malts[maltIndex] = malt;
@@ -104,10 +95,10 @@ const Fermentables = (props) => {
 
         const malt = {
             id: uuid(),
-            maltName: 'Pilsen',
-            maltColor: 0,
-            maltPot: 1.032,
-            maltAmount: 1
+            maltName: 'Sacarose',
+            maltColor: 1,
+            maltPot: 1.04621,
+            maltAmount: 3
         }
 
         const malts = [...maltsState.malts];
@@ -131,7 +122,10 @@ const Fermentables = (props) => {
 
             wortUpdatedPotential = wortUpdatedPotential + maltOG;
 
-            setWortPotential((259 / (259 - (wortUpdatedPotential))).toFixed(3));
+
+            const mainOG = (259 / (259 - ((wortUpdatedPotential)*(0.5)))).toFixed(3); //TODO create the eficiency to calc
+
+            setWortPotential( mainOG); /*TODO improve the readability */
 
             console.log(`Este é o potêncial do mosto ${maltOG}`);
         }
@@ -189,11 +183,7 @@ const Fermentables = (props) => {
                     </ul>
                     {malt}
 
-                    {/* <p onClick={updateWortPotential}>
-                        Wort potential: {wortPotential}
-                    </p> */}
                     <button className="addMaltButton" onClick={addMaltHandler}>Add malt</button>
-                    {/* <button className="addMaltButton" onClick={caculateOG}>Calc</button> */}
                 </div>
             </div>
         </>
