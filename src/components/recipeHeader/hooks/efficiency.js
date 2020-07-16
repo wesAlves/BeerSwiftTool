@@ -1,18 +1,18 @@
-import  { useState } from 'react'
+import { useState } from 'react'
 
 
 
-const Efficiency=() => {
-    
+const Efficiency = () => {
+
     let [efficiency, setefficiency] = useState('50');
     let efficiencyState = { efficiency };
 
-const efficiencyHandler = (event) => {
-    
-    efficiencyState = event.target.value;
-    setefficiency(efficiencyState);
-  };
+    const efficiencyHandler = (event) => {
 
-  return [{ efficiency },{efficiencyState}, efficiencyHandler ];
+        efficiencyState = event.target.value;
+        setefficiency(efficiencyState);
+    };
+
+    return [{ efficiency }, { efficiencyState }, efficiencyHandler];
 }
 export default Efficiency

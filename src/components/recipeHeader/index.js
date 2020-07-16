@@ -6,24 +6,24 @@ import './index.scss';
 
 
 const RecipeHeader = () => {
-    let [{ wortVolume }, {wortVolumeState},  wortVolumeHandler] = WortVolume()
-    let [{ efficiency }, {efficiencyState},  efficiencyHandler] = Efficiency()
-    
-    console.log(wortVolumeState)
+    let [{ wortVolume }, { wortVolumeState }, wortVolumeHandler] = WortVolume()
+    let [{ efficiency }, { efficiencyState }, efficiencyHandler] = Efficiency()
+
+    // console.log(wortVolumeState)
     console.log(efficiencyState)
 
 
-   
-    
+
+
     return (
-        
+
         <div className="RecipeHeader">
-            <div className="firstline">
+            <div className="title">
                 <h2> Recipe</h2>
             </div>
             <div className="firstline">
-            <label>Name </label>
-                <input  type='text' placeholder= "Faz Tua Breja" /> 
+                <label>Name </label>
+                <input type='text' placeholder="Faz Tua Breja" />
                 <label>Style</label>
                 <select>
                     <option>IPA</option>
@@ -33,14 +33,14 @@ const RecipeHeader = () => {
             </div>
             <div className="firstline">
                 <label>Wort Volume/L </label>
-                <input  type='text' onChange={wortVolumeHandler} value= {wortVolume} /> 
+                <input type='text' onChange={wortVolumeHandler} value={wortVolume} />
                 <label>Efficiency/%</label>
-                <input  type='text'  onChange={efficiencyHandler} value= {efficiency} />
+                <input type='text' onChange={efficiencyHandler} value={efficiency} />
             </div>
-            
+
         </div>
 
-    )  
+    )
 }
 
 export default RecipeHeader

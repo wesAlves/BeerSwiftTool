@@ -10,13 +10,13 @@ import Efficiency from '../recipeHeader/hooks/efficiency';
 
 const Fermentables = (props) => {
 
-    
+
     let wortUpdatedPotential = 0;
     //importing efficiency and wortVolume hooks.
-    let [{wortVolume}, {wortVolumeState}, wortVolumeHandler] = WortVolume()
-    let [{efficiency}, {efficiencyState}, efficiencyHandler] = Efficiency()
-    
-    
+    let [{ wortVolume }, { wortVolumeState }, wortVolumeHandler] = WortVolume()
+    let [{ efficiency }, { efficiencyState }, efficiencyHandler] = Efficiency()
+
+
 
     const [wortPotential, setWortPotential] = useState(0);
 
@@ -66,7 +66,7 @@ const Fermentables = (props) => {
         });
 
         const malt = {
-            ...maltsState.malts[maltIndex] 
+            ...maltsState.malts[maltIndex]
         };
 
         malt.maltPot = event.target.value;
@@ -118,7 +118,7 @@ const Fermentables = (props) => {
 
     useEffect(() => {
         const maltsPlato = [...maltsState.malts];
-        
+
         for (let i = 0; i < maltsState.malts.length; i++) {
 
             const maltAmount = Number(maltsPlato[i].maltAmount);
@@ -132,15 +132,15 @@ const Fermentables = (props) => {
             wortUpdatedPotential = wortUpdatedPotential + maltOG;
 
             //efficiency addition here.
-            const mainOG = (259 / (259 - ((wortUpdatedPotential)*(Number(efficiency)/100)))).toFixed(3); //TODO create the eficiency to calc
+            const mainOG = (259 / (259 - ((wortUpdatedPotential) * (Number(efficiency) / 100)))).toFixed(3); //TODO create the eficiency to calc
 
-            setWortPotential( mainOG); /*TODO improve the readability */
+            setWortPotential(mainOG); /*TODO improve the readability */
 
             console.log(`Este é o potêncial do mosto ${maltOG}`);
             console.log(`Esse é o wortvolume que esta pegando ${wortVolume}L`);
             console.log(`Esse é a efficiency que esta pegando ${efficiency}%`);
 
-            
+
         }
 
     }, [maltsState]);
@@ -200,7 +200,7 @@ const Fermentables = (props) => {
                 </div>
             </div>
         </>
-        
+
     );
 }
 
