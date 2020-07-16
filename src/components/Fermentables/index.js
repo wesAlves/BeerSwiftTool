@@ -1,13 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { uuid } from 'uuidv4'
 
+
 import './index.scss';
 import Malt from './Malt';
+import WortVolume from '../recipeHeader/hooks/wortVolume';
+import Efficiency from '../recipeHeader/hooks/efficiency';
+
 
 const Fermentables = (props) => {
 
+    
     let wortUpdatedPotential = 0;
-    const wortVolume = props.wortVolume;
+    //importing efficiency and wortVolume hooks.
+    let [{wortVolume}, {wortVolumeState}, wortVolumeHandler] = WortVolume()
+    let [{efficiency}, {efficiencyState}, efficiencyHandler] = Efficiency()
+    
+    
 
     const [wortPotential, setWortPotential] = useState(0);
 
@@ -109,7 +118,7 @@ const Fermentables = (props) => {
 
     useEffect(() => {
         const maltsPlato = [...maltsState.malts];
-
+        
         for (let i = 0; i < maltsState.malts.length; i++) {
 
             const maltAmount = Number(maltsPlato[i].maltAmount);
@@ -117,17 +126,21 @@ const Fermentables = (props) => {
 
             const percentageDBFG = (maltPotential - 1) / 0.04621 * 100;
             const extractPotential = 1 + (percentageDBFG / 100) * 0.04621;
-
-            const maltOG = (maltAmount * percentageDBFG) / wortVolume;
+            //wortVolume addition here,
+            const maltOG = (maltAmount * percentageDBFG) / Number(wortVolume);
 
             wortUpdatedPotential = wortUpdatedPotential + maltOG;
 
-
-            const mainOG = (259 / (259 - ((wortUpdatedPotential)*(0.5)))).toFixed(3); //TODO create the eficiency to calc
+            //efficiency addition here.
+            const mainOG = (259 / (259 - ((wortUpdatedPotential)*(Number(efficiency)/100)))).toFixed(3); //TODO create the eficiency to calc
 
             setWortPotential( mainOG); /*TODO improve the readability */
 
             console.log(`Este é o potêncial do mosto ${maltOG}`);
+            console.log(`Esse é o wortvolume que esta pegando ${wortVolume}L`);
+            console.log(`Esse é a efficiency que esta pegando ${efficiency}%`);
+
+            
         }
 
     }, [maltsState]);
@@ -187,6 +200,7 @@ const Fermentables = (props) => {
                 </div>
             </div>
         </>
+        
     );
 }
 

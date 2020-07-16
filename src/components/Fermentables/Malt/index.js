@@ -19,17 +19,17 @@ const Malt = (props) => {
 
         <div className="Malt">
 
-            <BSTInputText
+            {/* <BSTInputText
                 inputName="Malt Name"
                 type="text"
                 onChange={props.changeName}
                 value={props.maltName}
-            />
+            /> */}
 
-            {/* <div className="inputMalt">
+            <div className="inputMalt">
                 <label>Malt name</label>
                 <input type='text' onChange={props.changeName} value={props.maltName} />
-            </div> */}
+            </div>
 
             <div className="inputMalt">
                 <label>Malt type</label>
