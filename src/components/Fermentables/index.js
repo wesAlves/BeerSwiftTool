@@ -1,28 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { uuid } from 'uuidv4'
 
-
-import './index.scss';
 import Malt from './Malt';
-import WortVolume from '../recipeHeader/hooks/wortVolume';
-import Efficiency from '../recipeHeader/hooks/efficiency';
-
+import './index.scss';
 
 const Fermentables = (props) => {
 
 
     let wortUpdatedPotential = 0;
-    //importing efficiency and wortVolume hooks.
-    let [{ wortVolume }, { wortVolumeState }, wortVolumeHandler] = WortVolume()
-    let [{ efficiency }, { efficiencyState }, efficiencyHandler] = Efficiency()
-
-
 
     const [wortPotential, setWortPotential] = useState(0);
 
     const [maltsState, setMalts] = useState({
         malts: [
-            { id: uuid(), maltName: "Sacarose", maltColor: 3, maltPot: 1.04621, maltAmount: 3 },
+            { id: uuid(), maltName: "Sacarose", maltColor: 3, maltPot: 1.04621, maltAmount: 6 },
         ]
     });
 
@@ -107,7 +98,7 @@ const Fermentables = (props) => {
             maltName: 'Sacarose',
             maltColor: 1,
             maltPot: 1.04621,
-            maltAmount: 3
+            maltAmount: 6
         }
 
         const malts = [...maltsState.malts];
@@ -127,23 +118,23 @@ const Fermentables = (props) => {
             const percentageDBFG = (maltPotential - 1) / 0.04621 * 100;
             const extractPotential = 1 + (percentageDBFG / 100) * 0.04621;
             //wortVolume addition here,
-            const maltOG = (maltAmount * percentageDBFG) / Number(wortVolume);
+            const maltOG = (maltAmount * percentageDBFG) / props.wortVolume;
 
             wortUpdatedPotential = wortUpdatedPotential + maltOG;
 
             //efficiency addition here.
-            const mainOG = (259 / (259 - ((wortUpdatedPotential) * (Number(efficiency) / 100)))).toFixed(3); //TODO create the eficiency to calc
+            const mainOG = (259 / (259 - ((wortUpdatedPotential) * (props.efficiency / 100)))).toFixed(3);
 
             setWortPotential(mainOG); /*TODO improve the readability */
 
-            console.log(`Este é o potêncial do mosto ${maltOG}`);
-            console.log(`Esse é o wortvolume que esta pegando ${wortVolume}L`);
-            console.log(`Esse é a efficiency que esta pegando ${efficiency}%`);
+            // console.log(`Este é o potêncial do mosto ${maltOG}`);
+            // console.log(`Esse é o wortvolume que esta pegando ${props.wortVolume}L`);
+            // console.log(`Esse é a efficiency que esta pegando ${props.efficiency}%`);
 
 
         }
 
-    }, [maltsState]);
+    }, [maltsState, props.efficiency, props.wortVolume]);
 
 
     let malt = null;

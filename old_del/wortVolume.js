@@ -10,7 +10,7 @@ const WortVolume = () => {
     
     wortVolumeState = event.target.value;
     setwortVolume(wortVolumeState);
-    console.log({wortVolumeState})
+    console.log(wortVolume)
   };
   
   return [{ wortVolume }, { wortVolumeState }, wortVolumeHandler];
