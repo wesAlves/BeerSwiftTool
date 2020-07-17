@@ -1,24 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { uuid } from 'uuidv4'
 
-
+import Malt from './Malt';
 import './index.scss';
-import Malt from '../Malt';
 
+const Fermentables = (props) => {
 
-
-
-
-const Fermentables = () => {
 
     let wortUpdatedPotential = 0;
+
     const [wortPotential, setWortPotential] = useState(0);
 
     const [maltsState, setMalts] = useState({
         malts: [
-            { id: uuid(), maltName: "Pale Ale", maltColor: 3, maltPot: 1.036, maltAmount: 1 },
-            // { id: "2", maltName: "Crystal", maltColor: 16, maltPot: 1.037 },
-            // { id: "3", maltName: "Black", maltColor: 200, maltPot: 1.038 },
+            { id: uuid(), maltName: "Sacarose", maltColor: 3, maltPot: 1.04621, maltAmount: 6 },
         ]
     });
 
@@ -100,10 +95,10 @@ const Fermentables = () => {
 
         const malt = {
             id: uuid(),
-            maltName: 'Pilsen',
-            maltColor: 0,
-            maltPot: 1.032,
-            maltAmount: 1
+            maltName: 'Sacarose',
+            maltColor: 1,
+            maltPot: 1.04621,
+            maltAmount: 6
         }
 
         const malts = [...maltsState.malts];
@@ -113,14 +108,33 @@ const Fermentables = () => {
     }
 
     useEffect(() => {
-        for (let i = 0; i < maltsState.malts.length; i++) {
-            const maltPotential = Number(maltsState.malts[i].maltPot);
-            const maltAmount = Number(maltsState.malts[i].maltAmount);
+        const maltsPlato = [...maltsState.malts];
 
-            wortUpdatedPotential = wortUpdatedPotential + (maltPotential*maltAmount);
-            setWortPotential(wortUpdatedPotential);
+        for (let i = 0; i < maltsState.malts.length; i++) {
+
+            const maltAmount = Number(maltsPlato[i].maltAmount);
+            const maltPotential = Number(maltsPlato[i].maltPot);
+
+            const percentageDBFG = (maltPotential - 1) / 0.04621 * 100;
+            const extractPotential = 1 + (percentageDBFG / 100) * 0.04621;
+            //wortVolume addition here,
+            const maltOG = (maltAmount * percentageDBFG) / props.wortVolume;
+
+            wortUpdatedPotential = wortUpdatedPotential + maltOG;
+
+            //efficiency addition here.
+            const mainOG = (259 / (259 - ((wortUpdatedPotential) * (props.efficiency / 100)))).toFixed(3);
+
+            setWortPotential(mainOG); /*TODO improve the readability */
+
+            // console.log(`Este é o potêncial do mosto ${maltOG}`);
+            // console.log(`Esse é o wortvolume que esta pegando ${props.wortVolume}L`);
+            // console.log(`Esse é a efficiency que esta pegando ${props.efficiency}%`);
+
+
         }
-    }, [maltsState]);
+
+    }, [maltsState, props.efficiency, props.wortVolume]);
 
 
     let malt = null;
@@ -136,7 +150,7 @@ const Fermentables = () => {
                         maltName={malt.maltName}
                         maltColor={malt.maltColor}
                         maltPot={malt.maltPot}
-                        maltAmount = {malt.maltAmount}
+                        maltAmount={malt.maltAmount}
                         changeName={(event) => maltNameHandler(event, malt.id)}
                         changeColor={(event) => maltColorHandler(event, malt.id)}
                         changePot={(event) => maltPotHandler(event, malt.id)}
@@ -154,8 +168,8 @@ const Fermentables = () => {
         <>
             <div className="fermentablesContainer">
                 <div>
-                        
-                    <h2>Malt list - Wort potential: <span style={{background: `#b34800`, fontSize:'1.5rem'}} className='ebcColor'>{wortPotential}</span></h2>
+
+                    <h2>Malt list - Original gravity (OG): <span style={{ background: `#b34800`, fontSize: '1.5rem' }} className='ebcColor'>{wortPotential}</span></h2>
                     <button className="addMaltButton addMaltButton__top" onClick={addMaltHandler}>Add malt</button>
 
                     <ul className='maltList'>
@@ -164,7 +178,7 @@ const Fermentables = () => {
 
                             return (
                                 <li key={malt.id}>
-                                    {malt.maltName} : <strong>{malt.maltPot}</strong> <span style={{background: `#b34800`}} className='ebcColor'>SRM {malt.maltColor}</span> 
+                                    {malt.maltName} : <strong>{malt.maltPot}</strong> <span style={{ background: `#b34800` }} className='ebcColor'>SRM {malt.maltColor}</span>
                                 </li>
                             );
                         }
@@ -173,13 +187,11 @@ const Fermentables = () => {
                     </ul>
                     {malt}
 
-                    {/* <p onClick={updateWortPotential}>
-                        Wort potential: {wortPotential}
-                    </p> */}
                     <button className="addMaltButton" onClick={addMaltHandler}>Add malt</button>
                 </div>
             </div>
         </>
+
     );
 }
 
