@@ -189,7 +189,7 @@ const Fermentables = (props) => {
                     <button className="addMaltButton addMaltButton__top" onClick={addMaltHandler}>Add malt</button>
                     <ul className='maltList'>
 
-                        {maltsState.malts.map(malt => {
+                        {/* {maltsState.malts.map(malt => {
 
                             return (
                                 <li key={malt.id}>
@@ -198,7 +198,7 @@ const Fermentables = (props) => {
                             );
                         }
                         )
-                        }
+                        } */}
                     </ul>
                     {malt}
 
