@@ -38,7 +38,7 @@ const Malt = (props) => {
             </div >
             <div className="inputMalt">
                 <label>Malt Percentual </label>
-                <div>{props.maltPercntaul}</div>
+                <div>{props.maltPercentaul}</div>
             </div >
 
             <div className='delButton' onClick={props.clickDelete}>Delete</div>

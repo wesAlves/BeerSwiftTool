@@ -110,25 +110,24 @@ const Fermentables = (props) => {
 
     }
 
-   const updateMaltPercentual = useEffect(() => {
+    useEffect(() => {
         const malts = [...maltsState.malts];
         const amount = [];
         const reducer = (accumulator, currentValue) => accumulator + currentValue;
 
-        malts.map((malt => {
+        malts.map(malt => {
             const maltAmount = malt.maltAmount;
             amount.push(malt.maltAmount);
             const updateAmount = amount.reduce(reducer);
             malt.maltPercentage = (maltAmount * 100);
             updateCurrentAmount(updateAmount);
 
-            setMalts({ malts: malts })
         }
-        ));
+        );
+        setMalts({ malts: malts });
         console.log(malts);
 
     }, [wortPotential]);
-
 
     useEffect(() => {
         const malts = [...maltsState.malts];
@@ -162,15 +161,13 @@ const Fermentables = (props) => {
         const malts = [...maltsState.malts];
         const color = [];
         const reducer = (accumulator, currentValue) => accumulator + currentValue;
-
+        // color formula = MCU = (Grain Color * Grain Weight lbs.)/Volume in Gallons
         malts.map(malt => {
-            malt.maltColor;
-            color.push((malt.maltColor / malt.maltColor) * malt.maltPercentage);
-            // const colorPercentage = (color.reduce(reducer) / 100) * malt.maltPercentage;
-            // console.log(malt.maltColorPercentage);
+            const maltColorUnity = (malt.maltColor * (malt.maltAmount)*2.205)/(props.wortVolume*0.26417205236);
+            const SRMColor = 1.4922 * (maltColorUnity ^ 0.6859);
+            color.push(SRMColor);
         });
         console.log(color);
-        updateCurrentColor(color.reduce(reducer));
     }
 
     let malt = null;
@@ -182,6 +179,7 @@ const Fermentables = (props) => {
                 return (
 
                     < Malt
+                        key={malt.id}
                         clickDelete={() => deleteMaltHandler(index)}
                         maltName={malt.maltName}
                         maltColor={malt.maltColor}
@@ -191,10 +189,7 @@ const Fermentables = (props) => {
                         changeColor={(event) => maltColorHandler(event, malt.id)}
                         changePot={(event) => maltPotHandler(event, malt.id)}
                         changeAmount={(event) => maltAmountHandler(event, malt.id)}
-                        key={malt.id}
-                        // maltPercntaul={malt.maltPercentage}
-                        // maltPercntaul={`${((malt.maltAmount * 100) / currentAmount).toFixed(1)}%`}
-                        maltPercntaul={`${(malt.maltPercentage/currentAmount).toFixed(1)}%`}
+                        maltPercentaul={`${(malt.maltPercentage / currentAmount).toFixed(1)}%`}
                     />
                 )
 
