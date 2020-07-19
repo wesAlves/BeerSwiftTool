@@ -176,6 +176,7 @@ const Fermentables = (props) => {
     }
 
     return (
+        [{wortPotential}],
         <>
             <div className="fermentablesContainer">
                 <div>
@@ -208,6 +209,5 @@ const Fermentables = (props) => {
         </>
 
     );
-}
-
+} 
 export default Fermentables;

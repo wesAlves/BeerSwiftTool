@@ -1,0 +1,60 @@
+.hopsContainer {
+    width: 80%;
+    margin: 16px;
+  
+    border: 1px solid #eee;
+    box-shadow: 0 2px 8px #ccc;
+    padding: 16px;
+    border-radius: 8px;
+    background: #fafafa;
+    max-width: 80%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  
+    & .results {
+      display: flex;
+  
+      & h2 {
+        padding-right: 8px;
+      }
+    }
+    & .hopList {
+      list-style-type: none;
+      padding: 0;
+      display: flex;
+      justify-content: space-between;
+      width: fit-content;
+  
+      & > li {
+        margin-left: 8px;
+      }
+    }
+  
+    & h2 {
+      margin-top: 0;
+      color: #e08200;
+    }
+  
+    & .ebcColor {
+      color: white;
+      border-radius: 8px;
+      padding: 4px;
+      font-size: 0.6rem;
+    }
+  
+    & .addHopButton {
+      padding: 0.4rem 0.8rem;
+      border-radius: 8px;
+      font-size: 1.6rem;
+      color: #fff;
+      border: none;
+      background: #281;
+  
+      &__top {
+        padding: 0.2rem 0.4rem;
+        font-size: 0.8rem;
+      }
+    }
+  }
+  
