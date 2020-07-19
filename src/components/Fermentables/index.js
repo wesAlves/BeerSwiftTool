@@ -8,9 +8,9 @@ const Fermentables = (props) => {
 
 
     let wortUpdatedPotential = 0;
-
     const [wortPotential, setWortPotential] = useState(0);
-
+    const [fg, setFg] = useState(0);
+    const [abv, setAbv] = useState(0);
     const [maltsState, setMalts] = useState({
         malts: [
             { id: uuid(), maltName: "Sacarose", maltColor: 3, maltPot: 1.04621, maltAmount: 6 },
@@ -123,9 +123,20 @@ const Fermentables = (props) => {
             wortUpdatedPotential = wortUpdatedPotential + maltOG;
 
             //efficiency addition here.
-            const mainOG = (259 / (259 - ((wortUpdatedPotential) * (props.efficiency / 100)))).toFixed(3);
+            const mainOG = (259 / (259 - ((wortUpdatedPotential) * (props.efficiency / 100))));
 
-            setWortPotential(mainOG); /*TODO improve the readability */
+            //using an overall aparent attenuation of 75%. the attenuation is based on mash temperatures/times and yeast attenuation.
+            const attenuation = 0.75;
+            const calcFG = (259 / (259 - ((wortUpdatedPotential) * (props.efficiency * (1 - attenuation) / 100))));
+
+            //Calculatin alchool by volume
+            const calcAbv = (76.08 * (mainOG - calcFG) / (1.775 - mainOG)) * (calcFG / 0.794) //more precise, but its new.
+            //const calcAbv = 131.25 * (mainOG - calcFG); // less precise, but more used
+
+            // seting OG, FG, ABV states
+            setWortPotential(mainOG.toFixed(3)); /*TODO improve the readability */
+            setFg(calcFG.toFixed(3));
+            setAbv(calcAbv.toFixed(2));
 
             // console.log(`Este é o potêncial do mosto ${maltOG}`);
             // console.log(`Esse é o wortvolume que esta pegando ${props.wortVolume}L`);
@@ -168,10 +179,14 @@ const Fermentables = (props) => {
         <>
             <div className="fermentablesContainer">
                 <div>
+                    <div className="results">
+                        <h2>Malt list - Original gravity (OG): <span style={{ background: `#b34800`, fontSize: '1.5rem' }} className='ebcColor'>{wortPotential}</span></h2>
+                        <h2> FG: <span style={{ background: `#b34800`, fontSize: '1.5rem' }} className='ebcColor'>{fg}</span></h2>
+                        <h2>ABV:<span style={{ background: `#b34800`, fontSize: '1.5rem' }} className='ebcColor'>{abv}%</span></h2>
+                    </div>
 
-                    <h2>Malt list - Original gravity (OG): <span style={{ background: `#b34800`, fontSize: '1.5rem' }} className='ebcColor'>{wortPotential}</span></h2>
+
                     <button className="addMaltButton addMaltButton__top" onClick={addMaltHandler}>Add malt</button>
-
                     <ul className='maltList'>
 
                         {maltsState.malts.map(malt => {
@@ -187,7 +202,7 @@ const Fermentables = (props) => {
                     </ul>
                     {malt}
 
-                    <button className="addMaltButton" onClick={addMaltHandler}>Add malt</button>
+                    {/* <button className="addMaltButton" onClick={addMaltHandler}>Add malt</button> */}
                 </div>
             </div>
         </>
