@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { uuid } from 'uuidv4'
 
-import HopForm from './HopForm/';
+
+import HopForm from './HopForm';
 
 import './index.scss';
 
 
 const Hops = (props) => {
-    
+
 
     let hopUpdateUtilization = 0;
 
@@ -70,6 +71,14 @@ const Hops = (props) => {
         };
 
         hop.hopAdditionType = event.target.value;
+
+        if (event.target.value == 'Flame out' || event.target.value == "Dry hop") {
+
+            hop.hopAdditionTime = 0;
+        }
+        else {
+            hop.hopAdditionTime = 60;
+        }
 
         const hops = [...hopsState.hops];
         hops[hopIndex] = hop;
@@ -144,16 +153,21 @@ const Hops = (props) => {
             const hopAdditionTime = Number(hopUtil[i].hopAdditionTime);
             const hopAdditionType = hopUtil[i].hopAdditionType;
             const hopAlphaAcid = Number(hopUtil[i].hopAlphaAcid);
+            //Using average hop utilization assuming the wort took 20 minutes to drop from 100 ° C to 80 ° C
+            const hopUtilizationFlameout = (1.65 * Math.pow(0.000125, (Number(props.wortPotential) - 1)) * (1 - Math.exp(-0.04 * 20)) / 4.15) * 0.36;
 
             if (hopAdditionType == "Boil") {
 
                 //calculation Hop utilization
-                const hopUtilizationUnit = (1.65 * Math.pow(0.000125, 0.060) * (1 - Math.exp(-0.04 * hopAdditionTime)) / 4.15);
-                console.log(hopUtilizationUnit)
+                const hopUtilizationUnit = (1.65 * Math.pow(0.000125, (Number(props.wortPotential) - 1)) * (1 - Math.exp(-0.04 * hopAdditionTime)) / 4.15);
+
                 //Calculating mg/L of alpha acid
                 let mgPerL = (((Number(hopAlphaAcid)) / 100) * ((Number(hopAmount)) * 1000)) / Number(props.wortVolume);
+                //calculating mg/L of non-isomerized alpha acid on Flame out
+                let mgPerlFlameout = (1 - hopUtilizationUnit) * (((Number(hopAlphaAcid)) / 100) * ((Number(hopAmount)) * 1000)) / Number(props.wortVolume)
+
                 //Calculating Hop specific IBU                
-                const hopIbu = (hopUtilizationUnit * mgPerL);
+                const hopIbu = (hopUtilizationUnit * mgPerL + mgPerlFlameout * hopUtilizationFlameout);
                 //Updating the hops utilization
                 hopUpdateUtilization = hopUpdateUtilization + hopIbu;
             }
@@ -161,30 +175,33 @@ const Hops = (props) => {
             if (hopAdditionType == "FWH") {
 
                 //calculation Hop utilization unit with 10% more utilization
-                // const hopUtilizationUnit = 1.1(1.65 * Math.pow(0.000125, (Number(wortPotential) - 1)) * (1 - Math.exp(-0.04 * hopAdditionTime)) / 4.15);
-                const hopUtilizationUnit = 1.1*(1.65 * Math.pow(0.000125, 0.060) * (1 - Math.exp(-0.04 * hopAdditionTime)) / 4.15);
+                const hopUtilizationUnit = 1.1 * (1.65 * Math.pow(0.000125, (Number(props.wortPotential) - 1)) * (1 - Math.exp(-0.04 * hopAdditionTime)) / 4.15);
+                
                 //Calculating mg/L of alpha acid
                 let mgPerL = (((Number(hopAlphaAcid)) / 100) * ((Number(hopAmount)) * 1000)) / Number(props.wortVolume);
 
+                //calculating mg/L of non-isomerized alpha acid on Flame out
+                let mgPerlFlameout = (1 - hopUtilizationUnit) * (((Number(hopAlphaAcid)) / 100) * ((Number(hopAmount)) * 1000)) / Number(props.wortVolume)
+
                 //Calculating Hop specific IBU                
-                const hopIbu = (hopUtilizationUnit * mgPerL);
+                const hopIbu = (hopUtilizationUnit * mgPerL + mgPerlFlameout * hopUtilizationFlameout);
 
                 //Updating the hops utilization
                 hopUpdateUtilization = hopUpdateUtilization + hopIbu;
             }
 
-            if (hopAdditionType == "Flame out") {
-
-                //Using average hop utilization assuming the wort took 20 minutes to drop from 100 ° C to 80 ° C
-                const hopUtilizationUnit = 0.211*0.36;
+            if (hopAdditionType == "Flame out") {                      
 
                 //Calculating mg/L of alpha acid
                 let mgPerL = (((Number(hopAlphaAcid)) / 100) * ((Number(hopAmount)) * 1000)) / Number(props.wortVolume);
+                
                 //Calculating Hop specific IBU                
-                const hopIbu = (hopUtilizationUnit * mgPerL);
+                const hopIbu = (hopUtilizationFlameout * mgPerL);
+                
                 //Updating the hops utilization
                 hopUpdateUtilization = hopUpdateUtilization + hopIbu;
             }
+
             if (hopAdditionType == "Dry hop") {
 
                 //For dry hoping, the hop utilization is 0
@@ -199,15 +216,13 @@ const Hops = (props) => {
 
                 hopUpdateUtilization = hopUpdateUtilization + hopIbu;
             }
-        //Seting IBU state
-        setIbu(hopUpdateUtilization.toFixed(2));
+
+            //Seting IBU state
+            setIbu(hopUpdateUtilization.toFixed(2));
 
         }
-        
 
-
-
-    }, [hopsState, props.wortVolume]);
+    }, [hopsState, props.wortVolume, props.wortPotential]);
 
 
     let hop = null;
@@ -244,7 +259,7 @@ const Hops = (props) => {
             <div className="hopsContainer">
                 <div>
                     <div className="results">
-                        <h2>Hop list -IBU: <span style={{ background: `#b34800`, fontSize: '1.5rem' }} className='ebcColor'>{ibu}</span></h2>
+                        <h2>Hops - IBU: <span style={{ background: `#b34800`, fontSize: '1.5rem' }} className='ebcColor'>{ibu}</span></h2>
                     </div>
 
 

@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import Fermentables from './components/Fermentables';
 import RecipeHeader from './components/recipeHeader';
-import Hops from './components/Hops';
+
+
 
 import './_styles/main.scss';
 
-export default function App() {
+
+export default function App(props) {
 
     const [wortVolume, setwortVolume] = useState(100);
     const [efficiency, setefficiency] = useState(70);
+    
 
     const wortVolumeHandler = (event) => {
         const wortVolumeState = event.target.value;
@@ -44,9 +47,9 @@ export default function App() {
                 efficiency={efficiency}
                 wortVolume={wortVolume}
             />
-            <Hops
-                wortVolume={wortVolume}
-            />
+            
+            
+        
 
         </>
     )

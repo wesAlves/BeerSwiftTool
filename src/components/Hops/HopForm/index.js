@@ -1,31 +1,16 @@
 import React from 'react';
 import './index.scss';
 
-import BSTInputText from '../../generecsComponents/inputText';
+
 
 const hopForm = (props) => {
 
-    /*
-    malt state :
-        name
-        malt type = would be a select or radio buttun
-        color = create an component or a functions that hendles the color convertion from EBC to RGB(Hex);
-        potential
-        amount
     
-    put a render that shows the percentage information each malt plays in the whole grist.
-    */
     return (
 
         <div className="Hop">
 
-            {/* <BSTInputText
-                inputName="Malt Name"
-                type="text"
-                onChange={props.changeName}
-                value={props.maltName}
-            /> */}
-
+           
             <div className="inputHop">
                 <label>Hop name</label>
                 <input type='text' onChange={props.changeName} value={props.hopName} />

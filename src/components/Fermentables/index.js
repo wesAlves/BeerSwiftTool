@@ -3,6 +3,7 @@ import { uuid } from 'uuidv4'
 
 import Malt from './Malt';
 import './index.scss';
+import Hops from '../Hops';
 
 const Fermentables = (props) => {
 
@@ -13,7 +14,7 @@ const Fermentables = (props) => {
     const [abv, setAbv] = useState(0);
     const [maltsState, setMalts] = useState({
         malts: [
-            { id: uuid(), maltName: "Sacarose", maltColor: 3, maltPot: 1.04621, maltAmount: 6 },
+            { id: uuid(), maltName: "Sacarose", maltColor: 3, maltPot: 1.04621, maltAmount: 0 },
         ]
     });
 
@@ -168,6 +169,8 @@ const Fermentables = (props) => {
                         changeAmount={(event) => maltAmountHandler(event, malt.id)}
                         key={malt.id}
                     />
+                   
+                    
                 )
 
 
@@ -176,12 +179,14 @@ const Fermentables = (props) => {
     }
 
     return (
-        [{wortPotential}],
+        
+       
+        
         <>
             <div className="fermentablesContainer">
                 <div>
                     <div className="results">
-                        <h2>Malt list - Original gravity (OG): <span style={{ background: `#b34800`, fontSize: '1.5rem' }} className='ebcColor'>{wortPotential}</span></h2>
+                        <h2>Malts - OG: <span style={{ background: `#b34800`, fontSize: '1.5rem' }} className='ebcColor'>{wortPotential}</span></h2>
                         <h2> FG: <span style={{ background: `#b34800`, fontSize: '1.5rem' }} className='ebcColor'>{fg}</span></h2>
                         <h2>ABV:<span style={{ background: `#b34800`, fontSize: '1.5rem' }} className='ebcColor'>{abv}%</span></h2>
                     </div>
@@ -202,11 +207,18 @@ const Fermentables = (props) => {
                         } */}
                     </ul>
                     {malt}
+                    
+                    
 
                     {/* <button className="addMaltButton" onClick={addMaltHandler}>Add malt</button> */}
                 </div>
             </div>
+            <Hops  
+            wortVolume={props.wortVolume}
+            wortPotential={wortPotential}
+            />
         </>
+        
 
     );
 } 
