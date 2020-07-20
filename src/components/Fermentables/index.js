@@ -15,8 +15,8 @@ const Fermentables = (props) => {
             // { id: uuid(), maltName: "Sacarose", maltColor: Math.floor(Math.random() * 40), maltPot: 1.04621, maltAmount: Math.floor(Math.random() * 10), maltPercentage: 100, maltColorPercentage: 1 },
         ]
     });
-    const [currentAmount, updateCurrentAmount] = useState();
-    const [currentColor, updateCurrentColor] = useState();
+    const [currentAmount, updateCurrentAmount] = useState(0);
+    const [currentColor, updateCurrentColor] = useState(0);
 
     const maltNameHandler = (event, id) => {
         const maltIndex = maltsState.malts.findIndex(malt => {
@@ -125,9 +125,25 @@ const Fermentables = (props) => {
         }
         );
         setMalts({ malts: malts });
-        console.log(malts);
+        // console.log(malts);
 
     }, [wortPotential]);
+
+    useEffect(() => {
+        const malts = [...maltsState.malts];
+        const color = [];
+        const reducer = (accumulator, currentValue) => accumulator + currentValue;
+        // color formula = MCU = (Grain Color * Grain Weight lbs.)/Volume in Gallons
+        malts.map(malt => {
+            const maltColorUnity = (malt.maltColor * (malt.maltAmount) * 2.205) / (props.wortVolume * 0.26417205236);
+            const SRMColor = 1.4922 * (maltColorUnity ^ 0.6859);
+            color.push(SRMColor);
+        });
+        if(color.length > 0){
+            updateCurrentColor(color.reduce(reducer));
+        }
+        // console.log(color);
+    }, [currentAmount]);
 
     useEffect(() => {
         const malts = [...maltsState.malts];
@@ -158,16 +174,16 @@ const Fermentables = (props) => {
 
 
     const colorCalculator = () => {
-        const malts = [...maltsState.malts];
-        const color = [];
-        const reducer = (accumulator, currentValue) => accumulator + currentValue;
-        // color formula = MCU = (Grain Color * Grain Weight lbs.)/Volume in Gallons
-        malts.map(malt => {
-            const maltColorUnity = (malt.maltColor * (malt.maltAmount)*2.205)/(props.wortVolume*0.26417205236);
-            const SRMColor = 1.4922 * (maltColorUnity ^ 0.6859);
-            color.push(SRMColor);
-        });
-        console.log(color);
+        // const malts = [...maltsState.malts];
+        // const color = [];
+        // const reducer = (accumulator, currentValue) => accumulator + currentValue;
+        // // color formula = MCU = (Grain Color * Grain Weight lbs.)/Volume in Gallons
+        // malts.map(malt => {
+        //     const maltColorUnity = (malt.maltColor * (malt.maltAmount) * 2.205) / (props.wortVolume * 0.26417205236);
+        //     const SRMColor = 1.4922 * (maltColorUnity ^ 0.6859);
+        //     color.push(SRMColor);
+        // });
+        console.log(currentColor);
     }
 
     let malt = null;
@@ -203,9 +219,10 @@ const Fermentables = (props) => {
             <div className="fermentablesContainer">
                 <div>
                     <div className="results">
-                        <h2>Malt list - Original gravity (OG): <span style={{ background: `#b34800`, fontSize: '1.5rem' }} className='ebcColor'>{wortPotential}</span></h2>
-                        <h2> FG: <span style={{ background: `#b34800`, fontSize: '1.5rem' }} className='ebcColor'>{fg}</span></h2>
-                        <h2>ABV:<span style={{ background: `#b34800`, fontSize: '1.5rem' }} className='ebcColor'>{abv}%</span></h2>
+                        <h2>Malt list - Original gravity (OG): {wortPotential}</h2>
+                        <h2> FG: {fg}</h2>
+                        <h2>ABV:{abv}%</h2>
+                        <h2>Color (SRM):<span style={{ background: `#b34800`, fontSize: '1.5rem' }} className='ebcColor'>{(currentColor).toFixed(2)}</span></h2>
                     </div>
 
 
