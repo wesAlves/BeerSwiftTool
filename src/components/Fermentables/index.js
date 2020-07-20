@@ -7,16 +7,17 @@ import Hops from '../Hops';
 
 const Fermentables = (props) => {
 
-
     let wortUpdatedPotential = 0;
     const [wortPotential, setWortPotential] = useState(0);
     const [fg, setFg] = useState(0);
     const [abv, setAbv] = useState(0);
     const [maltsState, setMalts] = useState({
         malts: [
-            { id: uuid(), maltName: "Sacarose", maltColor: 3, maltPot: 1.04621, maltAmount: 0 },
+            // { id: uuid(), maltName: "Sacarose", maltColor: Math.floor(Math.random() * 40), maltPot: 1.04621, maltAmount: Math.floor(Math.random() * 10), maltPercentage: 100, maltColorPercentage: 1 },
         ]
     });
+    const [currentAmount, updateCurrentAmount] = useState(0);
+    const [currentColor, updateCurrentColor] = useState(0);
 
     const maltNameHandler = (event, id) => {
         const maltIndex = maltsState.malts.findIndex(malt => {
@@ -44,7 +45,7 @@ const Fermentables = (props) => {
             ...maltsState.malts[maltIndex]
         };
 
-        malt.maltColor = event.target.value;
+        malt.maltColor = Number(event.target.value);
 
         const malts = [...maltsState.malts];
         malts[maltIndex] = malt;
@@ -61,7 +62,7 @@ const Fermentables = (props) => {
             ...maltsState.malts[maltIndex]
         };
 
-        malt.maltPot = event.target.value;
+        malt.maltPot = Number(event.target.value);
 
         const malts = [...maltsState.malts];
         malts[maltIndex] = malt;
@@ -78,7 +79,7 @@ const Fermentables = (props) => {
             ...maltsState.malts[maltIndex]
         };
 
-        malt.maltAmount = event.target.value;
+        malt.maltAmount = Number(event.target.value);
 
         const malts = [...maltsState.malts];
         malts[maltIndex] = malt;
@@ -93,61 +94,98 @@ const Fermentables = (props) => {
     }
 
     const addMaltHandler = () => {
-
+        const malts = [...maltsState.malts];
         const malt = {
             id: uuid(),
             maltName: 'Sacarose',
-            maltColor: 1,
+            maltColor: Math.floor(Math.random() * 40),
             maltPot: 1.04621,
-            maltAmount: 6
+            maltAmount: Math.floor(Math.random() * 10),
+            maltPercentage: 100,
+            maltColorPercentage: 1,
         }
 
-        const malts = [...maltsState.malts];
+
         malts.push(malt);
         setMalts({ malts: malts });
 
     }
 
     useEffect(() => {
-        const maltsPlato = [...maltsState.malts];
+        const malts = [...maltsState.malts];
+        const amount = [];
+        const reducer = (accumulator, currentValue) => accumulator + currentValue;
 
-        for (let i = 0; i < maltsState.malts.length; i++) {
+        malts.map(malt => {
+            const maltAmount = malt.maltAmount;
+            amount.push(malt.maltAmount);
+            const updateAmount = amount.reduce(reducer);
+            malt.maltPercentage = (maltAmount * 100);
+            updateCurrentAmount(updateAmount);
 
-            const maltAmount = Number(maltsPlato[i].maltAmount);
-            const maltPotential = Number(maltsPlato[i].maltPot);
+        }
+        );
+        setMalts({ malts: malts });
+        // console.log(malts);
+
+    }, [wortPotential]);
+
+    useEffect(() => {
+        const malts = [...maltsState.malts];
+        const color = [];
+        const reducer = (accumulator, currentValue) => accumulator + currentValue;
+        // color formula = MCU = (Grain Color * Grain Weight lbs.)/Volume in Gallons
+        malts.map(malt => {
+            const maltColorUnity = (malt.maltColor * (malt.maltAmount) * 2.205) / (props.wortVolume * 0.26417205236);
+            const SRMColor = 1.4922 * (maltColorUnity ^ 0.6859);
+            color.push(SRMColor);
+        });
+        if(color.length > 0){
+            updateCurrentColor(color.reduce(reducer));
+        }
+        // console.log(color);
+    }, [currentAmount]);
+
+    useEffect(() => {
+        const malts = [...maltsState.malts];
+
+        malts.map((malt => {
+            const maltAmount = malt.maltAmount;
+            const maltPotential = malt.maltPot;
 
             const percentageDBFG = (maltPotential - 1) / 0.04621 * 100;
             const extractPotential = 1 + (percentageDBFG / 100) * 0.04621;
-            //wortVolume addition here,
             const maltOG = (maltAmount * percentageDBFG) / props.wortVolume;
 
             wortUpdatedPotential = wortUpdatedPotential + maltOG;
 
-            //efficiency addition here.
             const mainOG = (259 / (259 - ((wortUpdatedPotential) * (props.efficiency / 100))));
-
-            //using an overall aparent attenuation of 75%. the attenuation is based on mash temperatures/times and yeast attenuation.
             const attenuation = 0.75;
             const calcFG = (259 / (259 - ((wortUpdatedPotential) * (props.efficiency * (1 - attenuation) / 100))));
-
-            //Calculatin alchool by volume
             const calcAbv = (76.08 * (mainOG - calcFG) / (1.775 - mainOG)) * (calcFG / 0.794) //more precise, but its new.
-            //const calcAbv = 131.25 * (mainOG - calcFG); // less precise, but more used
 
-            // seting OG, FG, ABV states
             setWortPotential(mainOG.toFixed(3)); /*TODO improve the readability */
             setFg(calcFG.toFixed(3));
             setAbv(calcAbv.toFixed(2));
-
-            // console.log(`Este é o potêncial do mosto ${maltOG}`);
-            // console.log(`Esse é o wortvolume que esta pegando ${props.wortVolume}L`);
-            // console.log(`Esse é a efficiency que esta pegando ${props.efficiency}%`);
-
-
         }
+        ));
+
 
     }, [maltsState, props.efficiency, props.wortVolume]);
 
+
+    const colorCalculator = () => {
+        // const malts = [...maltsState.malts];
+        // const color = [];
+        // const reducer = (accumulator, currentValue) => accumulator + currentValue;
+        // // color formula = MCU = (Grain Color * Grain Weight lbs.)/Volume in Gallons
+        // malts.map(malt => {
+        //     const maltColorUnity = (malt.maltColor * (malt.maltAmount) * 2.205) / (props.wortVolume * 0.26417205236);
+        //     const SRMColor = 1.4922 * (maltColorUnity ^ 0.6859);
+        //     color.push(SRMColor);
+        // });
+        console.log(currentColor);
+    }
 
     let malt = null;
 
@@ -158,6 +196,7 @@ const Fermentables = (props) => {
                 return (
 
                     < Malt
+                        key={malt.id}
                         clickDelete={() => deleteMaltHandler(index)}
                         maltName={malt.maltName}
                         maltColor={malt.maltColor}
@@ -167,7 +206,7 @@ const Fermentables = (props) => {
                         changeColor={(event) => maltColorHandler(event, malt.id)}
                         changePot={(event) => maltPotHandler(event, malt.id)}
                         changeAmount={(event) => maltAmountHandler(event, malt.id)}
-                        key={malt.id}
+                        maltPercentaul={`${(malt.maltPercentage / currentAmount).toFixed(1)}%`}
                     />
                    
                     
@@ -186,9 +225,10 @@ const Fermentables = (props) => {
             <div className="fermentablesContainer">
                 <div>
                     <div className="results">
-                        <h2>Malts - OG: <span style={{ background: `#b34800`, fontSize: '1.5rem' }} className='ebcColor'>{wortPotential}</span></h2>
-                        <h2> FG: <span style={{ background: `#b34800`, fontSize: '1.5rem' }} className='ebcColor'>{fg}</span></h2>
-                        <h2>ABV:<span style={{ background: `#b34800`, fontSize: '1.5rem' }} className='ebcColor'>{abv}%</span></h2>
+                        <h2>Malt list - Original gravity (OG): {wortPotential}</h2>
+                        <h2> FG: {fg}</h2>
+                        <h2>ABV:{abv}%</h2>
+                        <h2>Color (SRM):<span style={{ background: `#b34800`, fontSize: '1.5rem' }} className='ebcColor'>{(currentColor).toFixed(2)}</span></h2>
                     </div>
 
 
@@ -210,7 +250,6 @@ const Fermentables = (props) => {
                     
                     
 
-                    {/* <button className="addMaltButton" onClick={addMaltHandler}>Add malt</button> */}
                 </div>
             </div>
             <Hops  
