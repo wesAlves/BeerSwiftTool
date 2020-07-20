@@ -3,6 +3,7 @@ import { uuid } from 'uuidv4'
 
 import Malt from './Malt';
 import './index.scss';
+import Hops from '../Hops';
 
 const Fermentables = (props) => {
 
@@ -207,6 +208,8 @@ const Fermentables = (props) => {
                         changeAmount={(event) => maltAmountHandler(event, malt.id)}
                         maltPercentaul={`${(malt.maltPercentage / currentAmount).toFixed(1)}%`}
                     />
+                   
+                    
                 )
 
 
@@ -215,6 +218,9 @@ const Fermentables = (props) => {
     }
 
     return (
+        
+       
+        
         <>
             <div className="fermentablesContainer">
                 <div>
@@ -229,7 +235,7 @@ const Fermentables = (props) => {
                     <button className="addMaltButton addMaltButton__top" onClick={addMaltHandler}>Add malt</button>
                     <ul className='maltList'>
 
-                        {maltsState.malts.map(malt => {
+                        {/* {maltsState.malts.map(malt => {
 
                             return (
                                 <li key={malt.id}>
@@ -238,16 +244,21 @@ const Fermentables = (props) => {
                             );
                         }
                         )
-                        }
+                        } */}
                     </ul>
                     {malt}
+                    
+                    
 
                 </div>
             </div>
-            <button onClick={colorCalculator}>Potencial</button>
+            <Hops  
+            wortVolume={props.wortVolume}
+            wortPotential={wortPotential}
+            />
         </>
+        
 
     );
-}
-
+} 
 export default Fermentables;
